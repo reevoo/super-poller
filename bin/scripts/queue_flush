@@ -1,0 +1,3 @@
+require "super_poller"
+queue = SuperPoller::QueueUrl.parse(ARGV.shift).to_queue
+SuperPoller::NoneBlockingPoller.new(queue, lambda{|msg| }).start!

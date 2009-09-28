@@ -6,4 +6,7 @@ module SuperPoller
   autoload :StarlingQueue, "super_poller/starling_queue"
   autoload :Poller, "super_poller/poller"
   autoload :AggregatingErrorLogger, "super_poller/aggregating_error_logger"
+  autoload :NoneBlockingPoller, "super_poller/none_blocking_poller"
+  autoload :QueueUrl, "super_poller/queue_url"
+  autoload :QueueItterator, "super_poller/queue_itterator"
 end

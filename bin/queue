@@ -1,0 +1,10 @@
+script = ARGV.shift
+
+if File.exist?("#{File.dirname(__FILE__)}/scripts/queue_#{script}")
+  load "#{File.dirname(__FILE__)}/scripts/queue_#{script}"
+else
+  STDERR.puts "Available Commands:"
+  Dir.glob("#{File.dirname(__FILE__)}/scripts/queue_*") do |f|
+    STDERR.puts "  " + File.basename(f).gsub(/^queue_/, "")
+  end
+end

@@ -1,0 +1,51 @@
+require "super_poller"
+require 'optparse'
+
+options = {}
+opts = OptionParser.new do |opts|
+  opts.banner = "Usage queue grep QUEUE_URL [options]"
+  opts.on("-f STRING", "--ruby-filter STRING", "Set ruby filter") do |v|
+    options[:ruby_filter] = v
+  end
+
+  opts.on("-a STRING", "--ruby-action STRING", "Set ruby action") do |v|
+    options[:ruby_action] = v
+  end
+
+  opts.on("-d", "--delete", "Delete all matches") do |v|
+    options[:ruby_action] = ":delete"
+  end
+
+  opts.on("-c QUEUE", "--copy QUEUE", "Copy all matches") do |v|
+    options[:ruby_action] = "SuperPoller::QueueUrl.parse(#{v.to_s.inspect}).to_queue.push(msg)"
+  end
+
+  opts.on("-m QUEUE", "--move QUEUE", "Move all matches") do |v|
+    options[:ruby_action] = "SuperPoller::QueueUrl.parse(#{v.to_s.inspect}).to_queue.push(msg); :delete"
+  end
+
+  opts.on("-t TYPE", "--message-type TYPE", "Select messages of a given type") do |v|
+    options[:ruby_filter] = "#{v.to_s.inspect} == msg[:name].to_s rescue false"
+  end
+
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit 1
+  end
+end
+
+opts.parse!
+
+unless queue_url = ARGV.shift
+  puts opts
+  exit 1
+end
+
+queue = SuperPoller::QueueUrl.parse(queue_url).to_queue
+
+eval "def matcher_matches?(msg); #{ options[:ruby_filter] || "true" }; end"
+eval "def action(msg); #{ options[:ruby_action] || "p msg" }; end"
+
+SuperPoller::QueueItterator.new(queue).each do |msg|
+  action(msg) if matcher_matches? msg
+end

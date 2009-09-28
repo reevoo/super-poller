@@ -9,7 +9,6 @@ class SuperPoller::BufferedHandler < SuperPoller::Handler
     end
   end
 
-  
   def initialize
     @buffer = []
   end

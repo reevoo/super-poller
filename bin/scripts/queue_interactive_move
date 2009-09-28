@@ -1,0 +1,13 @@
+require "super_poller"
+queue_one = SuperPoller::QueueUrl.parse(ARGV.shift).to_queue
+queue_two = SuperPoller::QueueUrl.parse(ARGV.shift).to_queue
+
+SuperPoller::QueueItterator.new(queue_one).each do |msg|
+  p msg
+  print "Move to #{queue_two}? > "
+
+  if gets =~ /^[Yy]/
+    queue_two.push(msg)
+    :delete
+  end
+end

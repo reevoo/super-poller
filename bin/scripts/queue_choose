@@ -1,0 +1,17 @@
+require "super_poller"
+queue = SuperPoller::QueueUrl.parse(ARGV.shift).to_queue
+
+memo = {:memo => Time.now.to_f}
+queue.push(memo)
+
+SuperPoller::NoneBlockingPoller.new(queue, lambda{|msg|
+  skip = false
+  begin
+    exit if msg == memo
+    p msg
+    print "Kill? > "
+    skip = gets =~ /^[Yy]/
+  ensure
+    queue.push(msg) unless skip or msg == memo
+  end
+}).start!

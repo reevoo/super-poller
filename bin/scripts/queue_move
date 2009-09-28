@@ -1,0 +1,4 @@
+require "super_poller"
+in_queue, out_queue = [nil,nil].map{|url| SuperPoller::QueueUrl.parse(ARGV.shift).to_queue }
+
+SuperPoller::NoneBlockingPoller.new(in_queue, out_queue.method(:push)).start!
