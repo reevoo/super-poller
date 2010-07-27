@@ -14,9 +14,7 @@ class SuperPoller::Poller
 protected
   def get_message
     @queue.pop
-  rescue Interrupt
-    raise
-  rescue Object => e
+  rescue => e
     STDERR.puts "Error while fetching from the queue: #{e.class}: #{e.message}"
     sleep 10
     retry
