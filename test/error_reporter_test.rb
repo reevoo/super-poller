@@ -22,6 +22,14 @@ class ErrorReporterTest < Test::Unit::TestCase
     assert has_caught
   end
 
+  should "not catch errors that do not inherit from StandardError" do
+    raiser = proc{|msg| raise Exception, "Error doing a #{msg}" }
+
+    assert_raise(Exception) do
+      ErrorReporter.new(raiser){ flunk }.call("Hello")
+    end
+  end
+
   should "not catch errors if they don't happen" do
     ErrorReporter.new(stub("handler", :call)){|*args| flunk "Should not have tried to raise!" }.call("Hello")
   end

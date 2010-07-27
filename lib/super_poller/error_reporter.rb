@@ -6,7 +6,7 @@ class SuperPoller::ErrorReporter
   
   def call(*args)
     @message_handler.call(*args)
-  rescue Object => e
+  rescue StandardError => e
     @error_handler.call(e, *args)
   end
 end
