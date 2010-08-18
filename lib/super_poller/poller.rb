@@ -1,6 +1,6 @@
 class SuperPoller::Poller
-  def initialize(queue, message_handler)
-    @message_handler, @queue = message_handler, queue
+  def initialize(queue, message_handler, sleep_time = 1)
+    @message_handler, @queue, @sleep_time = message_handler, queue, sleep_time
   end
 
   def poll
@@ -16,7 +16,7 @@ protected
     @queue.pop
   rescue => e
     STDERR.puts "Error while fetching from the queue: #{e.class}: #{e.message}"
-    sleep 10
+    sleep @sleep_time
     retry
   end
 end
