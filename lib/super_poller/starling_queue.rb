@@ -17,4 +17,20 @@ class SuperPoller::StarlingQueue
   def fetch
     @queue.fetch(@queue_name)
   end
+
+  def length
+    @queue.sizeof(@queue_name)
+  end
+
+  def empty?
+    length.zero?
+  end
+
+  def any?
+    !empty?
+  end
+
+  def flush
+    @queue.delete(@queue_name)
+  end
 end
