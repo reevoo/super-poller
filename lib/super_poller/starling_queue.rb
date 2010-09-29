@@ -31,6 +31,6 @@ class SuperPoller::StarlingQueue
   end
 
   def flush
-    @queue.delete(@queue_name)
+    @queue.flush(@queue_name)
   end
 end
