@@ -27,6 +27,14 @@ class StarlingQueueTest < Test::Unit::TestCase
       assert_equal "second", queue.pop
     end
 
+    should 'empty a queue' do
+      queue = StarlingQueue.new("TEST_QUEUE", ["localhost:#{STARLING_PORT}"])
+      queue.push("first")
+      queue.push("second")
+      queue.flush
+      assert queue.empty?
+    end
+
   end
 
 end

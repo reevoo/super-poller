@@ -31,6 +31,13 @@ class SuperPoller::StarlingQueue
   end
 
   def flush
-    @queue.flush(@queue_name)
+    @queue.delete(@queue_name)
+  rescue MemCache::MemCacheError => e
+    if e.message =~ /bad command line format/
+      STDERR.puts "WARNING: Server could not handle delete command. Falling back to the MUCH slower, and quite unreliable flush method. Consider using Reevoo Starling (http://github.com/reevoo/starling)"
+      @queue.flush(@queue_name)
+    else
+      raise
+    end
   end
 end
