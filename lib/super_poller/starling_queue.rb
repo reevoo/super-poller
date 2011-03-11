@@ -1,6 +1,6 @@
 require "starling"
 
-class SuperPoller::StarlingQueue
+class SuperPoller::StarlingQueue < SuperPoller::GenericQueue
   def initialize(queue_name, *args)
     @queue_name = queue_name.to_s
     @queue = Starling.new(*args)
@@ -20,14 +20,6 @@ class SuperPoller::StarlingQueue
 
   def length
     @queue.sizeof(@queue_name)
-  end
-
-  def empty?
-    length.zero?
-  end
-
-  def any?
-    !empty?
   end
 
   def flush
