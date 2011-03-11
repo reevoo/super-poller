@@ -5,19 +5,19 @@ class SuperPoller::AggregatingErrorLogger
 
   def call(error, failed_message)
     update_error_queue(error, failed_message)
-    update_error_stats(error, failed_message[:name] || :unknown)
+    update_error_stats(error, failed_message["name"] || "unknown")
   end
 
 protected
   def update_error_queue(error, failed_message)
-    error_class_name = error.class.name.to_sym
-    error_description = {:class => error_class_name, :message => error.message}
-    @queue.push(failed_message.merge(:error => error_description))
+    error_class_name = error.class.name
+    error_description = {"class" => error_class_name, "message" => error.message}
+    @queue.push(failed_message.merge("error" => error_description))
   end
 
   def update_error_stats(error, message_name)
     stats = load_stats
-    error_class_name = error.class.name.to_sym
+    error_class_name = error.class.name
     stats_for_name = (stats[message_name] ||= {})
     stats_for_name[error_class_name] ||= 0
     stats_for_name[error_class_name] += 1

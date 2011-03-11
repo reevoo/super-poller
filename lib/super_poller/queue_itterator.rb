@@ -4,7 +4,7 @@ class SuperPoller::QueueItterator
   end
 
   def each(&block)
-    @memo = {:memo => Time.now.to_f}
+    @memo = {"memo" => Time.now.to_f}
     @queue.push @memo
     while @memo
       begin
@@ -12,7 +12,7 @@ class SuperPoller::QueueItterator
         if msg == @memo
           msg = @memo = nil
         else
-          msg = nil if :delete == block.call(msg)
+          msg = nil if "delete" == block.call(msg)
         end
       ensure
         @queue.push msg if msg

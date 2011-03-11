@@ -6,7 +6,7 @@ class SuperPoller::Handler::TestCase < (defined?(ActiveSupport::TestCase) ? Acti
 
   def self.should_handle(name)
     should "handle a #{name.inspect} message" do
-      assert handler.can_handle?(:name => name)
+      assert handler.can_handle?("name" => name.to_s)
     end
   end
 

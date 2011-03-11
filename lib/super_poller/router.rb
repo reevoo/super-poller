@@ -15,7 +15,7 @@ class SuperPoller::Router
 
   def call(message)
     handler = best_handler_for_message(message)
-    handler.call(message[:body])
+    handler.call(message["body"])
   end
 
 protected

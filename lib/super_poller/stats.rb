@@ -25,7 +25,7 @@ class SuperPoller::Stats
     ensure_worker_is_running
     @semaphore.synchronize do
       begin
-        name = msg[:name]
+        name = msg["name"]
         @counts[name] += 1
         start_time = Time.now
         @router.call(msg)

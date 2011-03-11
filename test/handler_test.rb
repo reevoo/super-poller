@@ -10,17 +10,17 @@ class HandlerTest < Test::Unit::TestCase
     end
 
     should "only foo_handler should handle a message named :foo" do
-      assert @foo_handler.can_handle?({:name => :foo})
-      assert !@bar_handler.can_handle?({:name => :foo})
+      assert @foo_handler.can_handle?({"name" => "foo"})
+      assert !@bar_handler.can_handle?({"name" => "foo"})
     end
 
     should "only bar_handler should handle a message named :bar" do
-      assert !@foo_handler.can_handle?({:name => :bar})
-      assert @bar_handler.can_handle?({:name => :bar})
+      assert !@foo_handler.can_handle?({"name" => "bar"})
+      assert @bar_handler.can_handle?({"name" => "bar"})
     end
 
     should "accept strings or symbols as names" do
-      assert @foo_handler.can_handle?({:name => "foo"})
+      assert @foo_handler.can_handle?({"name" => :foo})
     end
 
   end
