@@ -8,7 +8,7 @@ module SuperPoller
   autoload :AggregatingErrorLogger, "super_poller/aggregating_error_logger"
   autoload :NoneBlockingPoller, "super_poller/none_blocking_poller"
   autoload :QueueUrl, "super_poller/queue_url"
-  autoload :QueueItterator, "super_poller/queue_itterator"
+  autoload :QueueIterator, "super_poller/queue_iterator"
   autoload :Stats, "super_poller/stats"
   autoload :RetryWrapper, "super_poller/retry_wrapper"
 end

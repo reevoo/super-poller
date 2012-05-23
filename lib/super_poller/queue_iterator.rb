@@ -1,4 +1,4 @@
-class SuperPoller::QueueItterator
+class SuperPoller::QueueIterator
   def initialize(queue)
     @queue = queue
   end

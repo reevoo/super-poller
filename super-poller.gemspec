@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
   s.name = 'super-poller'
-  s.version = '0.2.3'
+  s.version = '0.2.4'
   s.authors = ['Tom Lea', 'George Brocklehurst']
-  s.date = '2010-07-27'
+  s.date = '2012-05-23'
   s.description = 'Small modular library for dealing with queues and pollers.'
   s.email = 'contrib@tomlea.co.uk'
   s.executables = ['queue']
