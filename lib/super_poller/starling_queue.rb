@@ -1,4 +1,5 @@
 require "starling"
+require "multi_json"
 
 class SuperPoller::StarlingQueue
   def initialize(queue_name, *args)
@@ -7,15 +8,15 @@ class SuperPoller::StarlingQueue
   end
 
   def pop
-    @queue.get(@queue_name)
+    coerce @queue.get(@queue_name, true)
   end
 
-  def push(v)
-    @queue.set(@queue_name, v)
+  def push(v, raw = false)
+    @queue.set(@queue_name, v, 0, raw)
   end
 
   def fetch
-    @queue.fetch(@queue_name)
+    coerce @queue.fetch(@queue_name, true)
   end
 
   def length
@@ -38,6 +39,15 @@ class SuperPoller::StarlingQueue
       @queue.flush(@queue_name)
     else
       raise
+    end
+  end
+
+  protected
+  def coerce(message)
+    if message.start_with?('{')
+      MultiJson.decode(message)
+    else
+      Marshal.load(message)
     end
   end
 end

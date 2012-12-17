@@ -27,6 +27,12 @@ class StarlingQueueTest < Test::Unit::TestCase
       assert_equal "second", queue.pop
     end
 
+    should "handle JSON messages" do
+      queue = StarlingQueue.new("TEST_QUEUE", ["localhost:#{STARLING_PORT}"])
+      queue.push('{"foo":"bar"}', raw = true)
+      assert_equal({'foo' => 'bar'}, queue.pop)
+    end
+
     should 'empty a queue' do
       queue = StarlingQueue.new("TEST_QUEUE", ["localhost:#{STARLING_PORT}"])
       queue.push("first")

@@ -9,4 +9,5 @@ Gem::Specification.new do |s|
   s.files = Dir.glob('{bin,lib,test}/**/*') + ['Rakefile']
   s.homepage = 'http://tomlea.co.uk/'
   s.summary = 'Tools for dealing with queues.'
+  s.add_dependency "multi_json"
 end
