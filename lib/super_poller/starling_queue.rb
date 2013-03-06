@@ -42,12 +42,21 @@ class SuperPoller::StarlingQueue
     end
   end
 
-  protected
-  def coerce(message)
-    if message.start_with?('{')
-      MultiJson.decode(message)
-    else
-      Marshal.load(message)
+  if "".respond_to? :force_encoding
+    def fix_encoding(v)
+      v.force_encoding('UTF-8')
     end
+  else
+    def fix_encoding(v)
+      v
+    end
+  end
+
+  def coerce(message)
+    unless message.start_with?('{')
+      message = MultiJson.dump(Marshal.load(message))
+    end
+    message = fix_encoding(message)
+    MultiJson.decode(message)
   end
 end
