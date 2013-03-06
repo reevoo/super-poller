@@ -1,5 +1,5 @@
 require "rubygems"
-require "rake/gempackagetask"
+require "rubygems/package_task"
 
 task :default => :test
 
@@ -10,4 +10,4 @@ Rake::TestTask.new do |t|
   t.verbose = true
 end
 
-Rake::GemPackageTask.new(eval(File.read('super-poller.gemspec'))){ }
+Gem::PackageTask.new(eval(File.read('super-poller.gemspec'))){ }
