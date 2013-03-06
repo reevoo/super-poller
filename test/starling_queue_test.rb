@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require File.join(File.dirname(__FILE__), "test_helper")
 
 class StarlingQueueTest < Test::Unit::TestCase
@@ -41,6 +42,16 @@ class StarlingQueueTest < Test::Unit::TestCase
       assert queue.empty?
     end
 
+    if ''.respond_to? :encoding
+      should 'force encoding to UTF8' do
+        instance = StarlingQueue.allocate
+        ascii_string = Marshal.dump({"a" => "\xC3\xA3".force_encoding('ascii')})
+        object = instance.coerce(ascii_string)
+
+        assert_equal "ã", object["a"]
+        assert_equal Encoding.find('utf-8'), object["a"].encoding
+      end
+    end
   end
 
 end
